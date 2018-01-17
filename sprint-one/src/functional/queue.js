@@ -3,12 +3,12 @@ var Queue = function() {
 
   // Use an object with numeric keys to store values
   var storage = {};
-  var count = Object.keys(someInstance).length;
+  var count = Object.keys(storage).length;
 
   // Implement the methods below
 
   someInstance.enqueue = function(value) {
-    someInstance[count] = value;
+    storage[count] = value;
     count++;
   };
 
@@ -17,14 +17,16 @@ var Queue = function() {
     if (count === 0) {
       return;
     } else {
-      item = someInstance[count - 1];
-      delete someInstance[count - 1];
+      item = storage[0];
+      delete storage[0];
       count--;
-      for (var key in someInstance) {
-        key = Number.parseInt(key, 10) - 1
+      for (var key in storage) {
+        if (!isNaN(Number.parseInt(key, 10))) {
+          storage[Number.parseInt(key, 10) - 1] = storage[key];
+        }
       }
+      return item;
     }
-    return item;
   };
 
   someInstance.size = function() {
